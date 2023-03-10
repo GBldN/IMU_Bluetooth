@@ -33,3 +33,6 @@ Dont les ### sont les valeurs de chaque composante.
 
 L'application a été développé avec APP INVENTOR :  https://gallery.appinventor.mit.edu/?galleryid=7bed003b-4152-40f3-b9e8-77ac0583e04f
 Le fichier apk est fourni
+
+Pour tout renseignement complémentaire gael.balduini@gmail.com
+
