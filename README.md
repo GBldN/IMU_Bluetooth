@@ -15,6 +15,7 @@ Une vidéo du programme en situation est disponible  https://youtu.be/u4rxh-nPM8
 - Un Arduino UNO
 - Une centrale inertielle Grove_IMU_6 DOF : https://wiki.seeedstudio.com/Grove-6-Axis_AccelerometerAndGyroscope/ 
 - Un module Bluetooth Grove - Serial Bluetooth v3.0 https://wiki.seeedstudio.com/Grove-Serial_Bluetooth_v3.0/
+- Une pile 9V pour l'alimentation
 
 ### Banc moteur
 - Un Arduino UNO
@@ -22,6 +23,9 @@ Une vidéo du programme en situation est disponible  https://youtu.be/u4rxh-nPM8
 - Un potentiomètre linéaire Grove Slide Potentiometer : https://wiki.seeedstudio.com/Grove-Slide_Potentiometer/
 - Un Driver moteur Sparkfun TB6612FNG : https://learn.sparkfun.com/tutorials/tb6612fng-hookup-guide?_ga=2.155362748.600943259.1678452372-1239022160.1678452372
 - Un moto réducteur POLOLU #4753 avec une réduction de 50:1 et 64CPR (rise and fall) : https://www.pololu.com/product/4753
+- Une équerre de renfort Zingué 100x100x22mm
+- Une pièce de fixation du moteur sur l'équerre imprimée en 3D (voir fichier stl)
+- Une alimentation CC 12V 3A ou plus
 
 ### Application Android
 L'application permet d'afficher en temps réel :
