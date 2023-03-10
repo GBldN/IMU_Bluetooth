@@ -4,7 +4,7 @@
  *    !!!ATTENTION!!! Si vous souhaitez changer les ports de connexion du codeur il faudra modifier la routine de lecture des registre "ROUTINE DE COMPTAGE DU NOMBRE DE TICKS DU CODEUR"  
  * Ce programme permet :
  *  - De controler la variation de vitesse ainsi que le sens de rotation par un potentiomètre (arrêt en position médiane) 
- *  - De Mesurer les 2 impulsions du codeur grâce à la lecture des interruptions avec les registres pour réduire les délais de lecture (utilisation de la bibliothèque TimerOne) 
+ *  - De Mesurer les 2 impulsions du codeur grâce à la lecture des interruptions avec les registres pour réduire les délais de lecture (utilisation de la bibliothèque TimerOne) branchés sur les ports 2 et 3
  *  - De calculer la fréquence de rotation de la sortie en tenant compte du type de codeur utilisé (nombre d'implusions par tour) ainsi que le rapport de réduction du réducteur
  *  - De calculer une correction PID pour asservir la vitese du moteur en fonction de 3 coefficients (Kp : proportionnel, Ki: intégrale et Kd : différentiel)
  *  
@@ -25,9 +25,6 @@
 /* ##### DEFINITION DES CONNEXIONS ##### */
   #define An0_Pin           A0                //Port de connexion de l'entrée du CAN An0
   #define Bp1Pin            8                 //Port de connexion de l'entrée du bouton poussoir de calibrage (en option)
-
-  #define CodeurPinA        2                 //Port de connexion du signal A du codeur doit être reliée à l'interruption INT0 (digital 2)
-  #define CodeurPinB        3                 //Port de connexion du signal B du codeur doit être reliée à l'interruption INT1 (digital 3)
 
   #define MotSTBYPin        4                 //Port de connexion du signal STANDBY du driver de puissance
   #define MotPWMAPin        5                 //Port de connexion du signal PWMA du driver de puissance
@@ -76,8 +73,8 @@ void setup()
   pinMode(MotPWMAPin,       OUTPUT);
   pinMode(MotSTBYPin,       OUTPUT);
 
-  pinMode(CodeurPinA,       INPUT_PULLUP);
-  pinMode(CodeurPinB,       INPUT_PULLUP);
+  pinMode(2,       INPUT_PULLUP);
+  pinMode(3,       INPUT_PULLUP);
 
   TWBR = ((F_CPU / 400000L) - 16) / 2;          //Réglage de la fréquence de fonctionnement du bus I2C à 400kHz
   setup_timer2();                               //Appel de la routine de configuration du timer 2
@@ -96,8 +93,8 @@ void setup()
   delay(2000);                                  //Pause pour l'affichage du nom du programme
   lcd.clear();
 
-  attachInterrupt(digitalPinToInterrupt(CodeurPinA), Comptage, CHANGE);  //Création de l'interruption sur la broche INT0 : D2
-  attachInterrupt(digitalPinToInterrupt(CodeurPinB), Comptage2,CHANGE);  //Création de l'interruption sur la broche INT1 : D3                                
+  attachInterrupt(digitalPinToInterrupt(2), Comptage, CHANGE);  //Création de l'interruption sur la broche INT0 : D2
+  attachInterrupt(digitalPinToInterrupt(3), Comptage2,CHANGE);  //Création de l'interruption sur la broche INT1 : D3                                
   
   digitalWrite(MotSTBYPin,HIGH);                //mise à 1 du signal STANDBY du driver pour son activation
   t0 = millis();
@@ -225,19 +222,14 @@ void PILOTAGE_MOTEUR()
    ---------------------------------------------------------------------- */
 void Comptage(void)
 {
-  int etat =  2 * digitalRead(CodeurPinA) + digitalRead(CodeurPinB);    //Définition d'une variable état à partir des 2 bits avec signal a bit de poids fort
-  if ( etat == 1 | etat == 2 ) tics--;                                    //Si A=1 & B=0 OU A=0 & B=1 : sens positif => Incrémentation de la variable tics
-  else tics++;                                                            //Sinon sens négatif                       => Décrémentation de la variable tics
-  //if ( (PIND & B00001000) == 0) tics--;else tics++;
-
-
+  if ( (PIND & B11111011) == 0) tics--;   //Lecture du portD si D2 == 1 et D3==0 
+  else tics++;
 }
 
 void Comptage2(void)
 {
-  int etat =  2* digitalRead(CodeurPinB) + digitalRead(CodeurPinA);     //Définition d'une variable état à partir des 2 bits
-  if ( etat == 0 | etat == 3 ) tics--;                                    //Si A=1 & B=0 OU A=0 & B=1 : sens positif => Incrémentation de la variable tics
-  else tics++;                                                            //Sinon sens négatif                       => Décrémentation de la variable tics 
+  if ( (PIND & B11110111) == 0) tics--;     //Lecture du portD si D3 == 0 et D2==1 
+  else tics++;
 }
 
 
