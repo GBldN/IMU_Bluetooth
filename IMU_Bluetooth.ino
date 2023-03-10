@@ -4,13 +4,15 @@
  *   - La centrale utilisée est une Grove_IMU_6 DOF : https://wiki.seeedstudio.com/Grove-6-Axis_AccelerometerAndGyroscope/ 
  *   - Le module Bluetooth utilisé est un module Grove - Serial Bluetooth v3.0 https://wiki.seeedstudio.com/Grove-Serial_Bluetooth_v3.0/
  * 
- * Pour simplifier le décodage le programme envoie en BT une trame de caractères ASCII :
- *    - Qui commence à chaque fois qu'une connexion est activée par "debut"
- *    - Tant que la connexion est active on envoie en permanence "ax:####;g,ay:####;g,ay:####;g,gx:####;deg/s,gy:####;deg/s,gz:####;deg/s" 
+ * Pour simplifier le décodage le programme envoie en BT une trame de caractères ASCII : "Debut,ax:±##.##;g,ay:±##.##;g,ay:±##.##;g,gx:±####;deg/s,gy:±####;deg/s,gz:±####;deg/s,Fin  "
  *            dont les #### correspondent aux valeurs
  *  
- * La réception des informations est prévue avec un smartphone. L'application Android développé avec APP INVENTOR http://ai2.appinventor.mit.edu/?ng=7bed003b-4152-40f3-b9e8-77ac0583e04f
+ * La réception des informations est prévue avec un smartphone. L'application Android développé avec APP INVENTOR https://gallery.appinventor.mit.edu/?galleryid=7bed003b-4152-40f3-b9e8-77ac0583e04f
  * 
+ * L'ensemble des descriptions et ressources sont disponibles sur le github https://github.com/GBldN/IMU_Bluetooth
+ * 
+ * Une vidéo du programme en situation est disponible https://youtu.be/u4rxh-nPM8k
+ *  
  * version=1.0
  * author=gael.balduini@gmail.com
  * licence=CC-by-nc-sa
@@ -18,15 +20,14 @@
  * sentence=Helpers for MadgwickAHRS algorithm
  * paragraph= This program send IMU's mesure with bluetooth
  * category=Data Processing
- * url=*
+ * url=https://github.com/GBldN/IMU_Bluetooth
  * architectures=*
  */
 
 
 /* ##### DEFINITION DES MACROS POUR LA PERSONNALISATION DU MATERIEL ##### */
-  #define       f_ech               50                            //Choix d'une fréquence en Hz pour le calcul à intervalle régulier entre 1 et 500 Hz (ATTENTION ! 1000 doit être un multiple de f_ech) 
-  #define       pleine_echelle_acc  2                             //réglage de la gamme de mesure de l'accéléromètre ±2g ; ±4g ; ±8g ou ±16g
-  #define       pleine_echelle_gyr  125                           //réglage de la gamme de mesure du gyromètre ± 125; 250; 500; 1000; 2000 °/s (21; 41; 42; 83; 167; 333 tr/min) pour le LM6DS3 
+  #define       pleine_echelle_acc  16                             //réglage de la gamme de mesure de l'accéléromètre ±2g ; ±4g ; ±8g ou ±16g
+  #define       pleine_echelle_gyr  2000                           //réglage de la gamme de mesure du gyromètre ± 125; 250; 500; 1000; 2000 °/s (21; 41; 42; 83; 167; 333 tr/min) pour le LM6DS3 
 
 /* Macro pour modifier les bits spécifiques d'un mots binaires grâce à un masque (0 pour les bits à modifier 1 pour ceux à laisser) */
   #define modif_bit( mot_depart, ajout, masque) ( ( mot_depart & masque ) | ajout )
@@ -41,7 +42,7 @@
   #include <SoftwareSerial.h>                                     //Emulateur d'une liaison série pour l'utilisation sur d'autres broches que les 0 et 1
 
 /* -- Déclaration des fonctions utiles au programme -- */
- SoftwareSerial Bluetooth(BtTxPin,BtRxPin);                      //Configure la fonction série émulé Bluetooth avec les broches (Rx,Tx)
+  SoftwareSerial Bluetooth(BtTxPin,BtRxPin);                      //Configure la fonction série émulé Bluetooth avec les broches (Rx,Tx)
 
 
 /* -- Définition des variables pour les entrée et mesures -- */
@@ -60,7 +61,6 @@
   /* -- Définition des variables pour les calcul des angles -- */
   float         Ax_reel, Ay_reel, Az_reel;                        //Variables pour le calcul des valeurs réelle de l'accéléromètre valeur_brute * sensibilité / précision
   float         Gx_reel, Gy_reel, Gz_reel;                        //Variables pour le calcul des valeurs réelle du gyromètre
-  float         Gx_prec, Gy_prec, Gz_prec;                        //Variables pour le stockage de la valeur précédente pour le calcul des angles avec le gyromètre
   
 /* -- Déclaration des variable pour la transmission BT -- */
   char          chaine_recue[60];                                 //Tableau des caractères reçus en bluetooth non synchronisée
@@ -72,8 +72,6 @@
  **************************************************************/
 void setup() {
 /* -- Configuration des broches en ENTREE ou SORTIE -- */
-  pinMode(BtTxPin, OUTPUT);
-  pinMode(BtRxPin, INPUT);
 
 /* -- configuration des fonctions spéciales */
   Wire.begin();                                                   //Initialisation de la connexion pour l'I2C
@@ -137,14 +135,6 @@ void loop()
  ****************************************************/
 void etalonnage()
 {
-  Serial.println();
-  Serial.println(" ################### ETALONNAGE EN COURS ###################" );
-  
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("ETALONNAGE EN COURS ");
-  lcd.setCursor(0, 1);
-  lcd.print("! Ne pas bouger !     ");
   
   
   uint16_t nombre_iterations = 500;                                                        //Variable pour définir le nombre d'itération du calcul
@@ -188,31 +178,8 @@ void etalonnage()
   gy_offset /= nombre_iterations;
   gz_offset /= nombre_iterations;
 
-  Serial.println();
-  Serial.println(" ################### ETALONNAGE REALISE ###################" );
-  Serial.println();
-  Serial.print(" OFFSETS ACCELEROMETRE : ");
-  Serial.print(" X = "); Serial.print(ax_offset); Serial.print(" | Y = "); Serial.print(ay_offset); Serial.print(" | Z = "); Serial.print(az_offset);
-  Serial.println();
+ 
 
-  Serial.print(" OFFSETS GYROMETRE     : ");
-  Serial.print(" X = "); Serial.print(gx_offset); Serial.print(" | Y = "); Serial.print(gy_offset); Serial.print(" | Z = "); Serial.print(gz_offset);
-  Serial.println();
-  Serial.println();
-  Serial.print(" ------- RELACHEZ LE BOUTON ------- ");
-
-
-  Serial.println();
-  Serial.println();
-
-  while (digitalRead(Bp1Pin))
-  {
-    //Boucle d'attente du relachement du bouton
-  }
-  roulis_gyr = 0;                                                                     //initialisation des calcul d'angles issues du gyroscope
-  tangage_gyr = 0;
-
-  lcd.clear();
 }
 
 
