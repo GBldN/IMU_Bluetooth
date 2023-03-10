@@ -20,7 +20,7 @@ Une vidéo du programme en situation est disponible  https://youtu.be/u4rxh-nPM8
 - Un Arduino UNO
 - Un écran LCD RGB BLACKLIGHT : https://wiki.seeedstudio.com/Grove-LCD_RGB_Backlight/
 - Un potentiomètre linéaire Grove Slide Potentiometer : https://wiki.seeedstudio.com/Grove-Slide_Potentiometer/
-- Un Driver moteur Sparkfun TB6612 : https://learn.sparkfun.com/tutorials/tb6612fng-hookup-guide?_ga=2.155362748.600943259.1678452372-1239022160.1678452372
+- Un Driver moteur Sparkfun TB6612FNG : https://learn.sparkfun.com/tutorials/tb6612fng-hookup-guide?_ga=2.155362748.600943259.1678452372-1239022160.1678452372
 - Un moto réducteur POLOLU #4753 avec une réduction de 50:1 et 64CPR (rise and fall) : https://www.pololu.com/product/4753
 
 ### Application Android
