@@ -35,7 +35,8 @@ L'application permet d'afficher en temps réel :
 - les 3 valeurs Ax, Ay et Az de l'accéléromètre
 - Les 3 valeurs Gx, Gy et Gz du gyromètre
 
-L'Arduino envoie ne bluetooth une chaine de caractères : "Debut,ax:±##.##;g,ay:±##.##;g,ay:±##.##;g,gx:±####;deg/s,gy:±####;deg/s,gz:±####;deg/s,Fin  "
+L'Arduino envoie, par la liaison bluetooth, une chaine de caractères :  
+"Debut,ax:±##.##;g,ay:±##.##;g,ay:±##.##;g,gx:±####;deg/s,gy:±####;deg/s,gz:±####;deg/s,Fin  "  
 Dont les ### sont les valeurs de chaque composante.
 
 L'application a été développé avec APP INVENTOR :  [appinventor.mit.edu/](https://gallery.appinventor.mit.edu/?galleryid=7bed003b-4152-40f3-b9e8-77ac0583e04f)
