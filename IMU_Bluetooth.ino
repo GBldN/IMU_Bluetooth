@@ -17,11 +17,7 @@
  * author=gael.balduini@gmail.com
  * licence=CC-by-nc-sa
  * maintainer=Arduino <info@arduino.cc>
- * sentence=Helpers for MadgwickAHRS algorithm
- * paragraph= This program send IMU's mesure with bluetooth
- * category=Data Processing
  * url=https://github.com/GBldN/IMU_Bluetooth
- * architectures=*
  */
 
 
