@@ -1,6 +1,7 @@
 # IMU_Bluetooth
 <p align="center">
-<img src="platine%20Banc%20moteur.jpg" alt="texte alternatif" height=200> 
+<img src="Platine IMU_Bleutooth.jpg" alt="Moteur à l'arret" height=300>
+<img src="Platine IMU_Bleutooth2.jpg" alt="Moteur en rotation" height=300> 
 </p>
 
 ## Présentation
