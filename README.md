@@ -24,7 +24,8 @@ Une vidéo du programme en situation est disponible  https://youtu.be/u4rxh-nPM8
 - Un Driver moteur Sparkfun TB6612FNG : https://learn.sparkfun.com/tutorials/tb6612fng-hookup-guide?_ga=2.155362748.600943259.1678452372-1239022160.1678452372
 - Un moto réducteur POLOLU #4753 avec une réduction de 50:1 et 64CPR (rise and fall) : https://www.pololu.com/product/4753
 - Une équerre de renfort Zingué 100x100x22mm
-- Une pièce de fixation du moteur sur l'équerre imprimée en 3D (voir fichier stl)
+- Une interface de fixation du motoréducteur sur l'équerre, imprimée en 3D (voir fichier stl)
+- Un plateau à fixer sur la sortie du motoréducteur imprimé en 3D (voir fichier stl)
 - Une alimentation CC 12V 3A ou plus
 
 ### Application Android
@@ -36,7 +37,7 @@ L'Arduino envoie ne bluetooth une chaine de caractères : "Debut,ax:±##.##;g,ay
 Dont les ### sont les valeurs de chaque composante.
 
 L'application a été développé avec APP INVENTOR :  https://gallery.appinventor.mit.edu/?galleryid=7bed003b-4152-40f3-b9e8-77ac0583e04f
-Le fichier apk est fourni
+Le fichier apk est fourni dans les fichiers
 
 Pour tout renseignement complémentaire gael.balduini@gmail.com
 
