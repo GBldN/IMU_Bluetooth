@@ -5,11 +5,14 @@
  * Le moteur utilisé est un POLOLU #4753 avec une réduction de 50:1 et 64CPR (rise and fall)  https://www.pololu.com/product/4753
  * Son codeur doit être connecté aux 2 entrées d'interruption INT0 sur D2 et INT1 sur D3.
  * Mais il est possible d'adapter le programme à n'importe quel moteur et codeur.
-
+ * 
  * Ce programme permet :
  *  - De controler la variation de vitesse ainsi que le sens de rotation par un potentiomètre (arrêt en position médiane) 
  *  - De Mesurer les 2 impulsions du codeur grâce à la lecture des interruptions
  *  - De calculer la fréquence de rotation DE LA SORTIE DU REDUCTEUR en tenant compte CPR (nombre d'implusions par tour) ainsi que le rapport de réduction du réducteur
+ *  - D'afficher la valeur de Fréquence de consigne et de fréquence mesuré sur un écran LCD
+ *  
+ * Le calcul à intervalle régulier est géré par le TIMER2 controlé par les registres
  *  
  * Un exemple d'application est disponible sur le github https://github.com/GBldN/IMU_Bluetooth
  * 
@@ -19,11 +22,8 @@
  * author=gael.balduini@gmail.com
  * licence=CC-by-nc-sa
  * maintainer=Arduino <info@arduino.cc>
- * sentence=PWM motor's control with rotation frequency calculation
- * paragraph= This program is used for control motor with PWM and read CPR Encoder for calculate freqyency 
  * category=Data Processing
- * url=https://github.com/GBldN/IMU_Bluetooth
- * architectures=**/
+ */
 
 /* ##### PARAMETRES POUR PERSONNALISER LE MATERIEL ##### */
   #define f_ech             50                //Choix d'une fréquence en Hz pour le calcul à intervalle régulier
