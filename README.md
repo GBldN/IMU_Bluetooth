@@ -46,7 +46,7 @@ Le fichier apk est fourni dans les fichiers
 
 ### Explications :
 Le principe est le suivant :
-- Le µC de la centrale envoi en permanence les 6 composantes d’accélérations et de vitesses angulaires en temps réel par l’intermédiaire du Bluetooth
+- Le µC de la centrale envoie en permanence les 6 composantes d’accélérations et de vitesses angulaires en temps réel par l’intermédiaire du Bluetooth
 - Le smartphone affiche les 6 valeurs.
 - On peut contrôler « précisément » la fréquence de rotation du motoréducteur et lire sur la platine la valeur « réelle » en °/S
 - Il est donc possible de vérifier les valeurs mesurées par le gyromètre en °/S et éventuellement celle de l’accéléromètre (accélération centripète) a= ω²∙ Rayon
