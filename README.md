@@ -1,8 +1,10 @@
 # IMU_Bluetooth
-
-<center> <img src="platine%20Banc%20moteur.jpg" alt="texte alternatif" height=200 aling="center"> </center>
+<p align="center">
+<img src="platine%20Banc%20moteur.jpg" alt="texte alternatif" height=200> 
+</p>
 
 ## Présentation
+
 Platine expérimentale pour afficher, en temps réel, les données lues par une centrale inertielle incluant un accéléromètre et un gyromètre.
 Il est possible de piloter la fréquence avec un potentiomètre linéaire.
 L'écran LCD permet d'afficher la fréquence de consigne (en tr/min) et la mesure de la vitesse angulaire en °/s.
