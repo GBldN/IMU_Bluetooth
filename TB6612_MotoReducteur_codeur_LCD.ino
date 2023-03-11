@@ -1,15 +1,29 @@
 /* ################# PROGRAMME DE PILOTAGE D'UN MOTOREDUCTEUR AVEC LE DRIVER TB6612FNG  #################
+ * Programme pour piloter en vitesse un moto réducteur à partir d'un signal PWM et mesurer la fréquence de rotation avec son codeur.
+ * 
  * Le mini driver moteur utilisé est un Sparkfun TB6612FNG https://www.sparkfun.com/products/14451 qui permet de controler 2 moteurs CC jusqu'à 1,2A par canal
- * Le codeur utilisé doit être relié à 2 entrées d'interruption, le plus simple étant d'utiliser les entrée 2 : INT0 et 3 : INT1
- *    !!!ATTENTION!!! Si vous souhaitez changer les ports de connexion du codeur il faudra modifier la routine de lecture des registre "ROUTINE DE COMPTAGE DU NOMBRE DE TICKS DU CODEUR"  
+ * Le moteur utilisé est un POLOLU #4753 avec une réduction de 50:1 et 64CPR (rise and fall)  https://www.pololu.com/product/4753
+ * Son codeur doit être connecté aux 2 entrées d'interruption INT0 sur D2 et INT1 sur D3.
+ * Mais il est possible d'adapter le programme à n'importe quel moteur et codeur.
+
  * Ce programme permet :
  *  - De controler la variation de vitesse ainsi que le sens de rotation par un potentiomètre (arrêt en position médiane) 
- *  - De Mesurer les 2 impulsions du codeur grâce à la lecture des interruptions avec les registres pour réduire les délais de lecture (utilisation de la bibliothèque TimerOne) branchés sur les ports 2 et 3
- *  - De calculer la fréquence de rotation de la sortie en tenant compte du type de codeur utilisé (nombre d'implusions par tour) ainsi que le rapport de réduction du réducteur
- *  - De calculer une correction PID pour asservir la vitese du moteur en fonction de 3 coefficients (Kp : proportionnel, Ki: intégrale et Kd : différentiel)
+ *  - De Mesurer les 2 impulsions du codeur grâce à la lecture des interruptions
+ *  - De calculer la fréquence de rotation DE LA SORTIE DU REDUCTEUR en tenant compte CPR (nombre d'implusions par tour) ainsi que le rapport de réduction du réducteur
  *  
- *  Le moteur utilisé est un POLOLU #4753 avec une réduction de 50:1 et 64CPR (rise and fall)
-*/
+ * Un exemple d'application est disponible sur le github https://github.com/GBldN/IMU_Bluetooth
+ * 
+ * Une vidéo du programme en situation est disponible sur youtube https://youtu.be/u4rxh-nPM8k
+ *  
+ * version=1.0
+ * author=gael.balduini@gmail.com
+ * licence=CC-by-nc-sa
+ * maintainer=Arduino <info@arduino.cc>
+ * sentence=PWM motor's control with rotation frequency calculation
+ * paragraph= This program is used for control motor with PWM and read CPR Encoder for calculate freqyency 
+ * category=Data Processing
+ * url=https://github.com/GBldN/IMU_Bluetooth
+ * architectures=**/
 
 /* ##### PARAMETRES POUR PERSONNALISER LE MATERIEL ##### */
   #define f_ech             50                //Choix d'une fréquence en Hz pour le calcul à intervalle régulier
